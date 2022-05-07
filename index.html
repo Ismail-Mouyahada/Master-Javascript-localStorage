@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Parcel Sandbox</title>
+    <meta charset="UTF-8" />
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.14.1/dist/css/uikit.min.css" />
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.1/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.1/dist/js/uikit-icons.min.js"></script>
+  </head>
+
+  <body>
+ 
+     
+    <form classe=" uk-flex uk-margin-large uk-card uk-padding uk-flex ">
+      <fieldset class="uk-fieldset">
+       <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s  " uk-grid>
+    <div class="uk-card-media-left uk-cover-container">
+        <img src="https://images.pexels.com/photos/9052846/pexels-photo-9052846.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></canvas>
+    </div>
+    <div>
+        <div class="uk-card-body">
+            <h3 class="uk-card-title">liste des tâches</h3>
+            <p>Javascript nous permet de simuler la base de données ou un API pour pouvoir enregistrer les données.</p>
+        </div>
+    </div>
+</div>
+
+        <div class="uk-margin uk-flex-center">
+          <input class="uk-input uk-text-center" type="text" placeholder="Titre" id="titre" />
+        </div>
+
+        <!--  <div class="uk-margin">
+          <textarea
+            class="uk-textarea"
+            rows="5"
+            placeholder="Détails de la taches"
+            id="détails"
+          ></textarea>
+        </div> -->
+
+        <button type="submit" class="uk-margin-left uk-button uk-button-primary" id="ajouter">
+          Enregsitrer
+        </button>
+        <button type="submit" class="uk-margin-left uk-button uk-button-danger" id="supprimer">
+          Tout Supprimer
+        </button>
+      </fieldset>
+    </form>
+
+    <table class="uk-table uk-table-striped">
+      <thead>
+        <tr>
+          <th>#N°</th>
+          <th>Titre</th>
+          <th>Date</th>
+          <th>Option</th>
+        </tr>
+      </thead>
+      <tbody id="tableContent"></tbody>
+    </table>
+ 
+    <script>
+
+   
+
+
+      // Insertion des données
+
+      let DeleteBtn = document.querySelector('#supprimer');
+      DeleteBtn.addEventListener('click', function() {
+        localStorage.clear();
+      })
+
+      let SubmitBtn = document.querySelector("#ajouter");
+      SubmitBtn.addEventListener('click', function() {
+
+        let insert = document.querySelector('#titre').value;
+        localStorage.setItem(localStorage.length+1, insert);
+      }, false);
+
+        
+ 
+
+
+       
+
+      // Recuperation des données
+ 
+          for (let a = 0; a < localStorage.length; a++) {
+
+         
+              
+           
+             
+                let cont = document.querySelector('#tableContent');
+                let child = document.createElement('tr');
+                let date = new Date("2015-3-25");
+                let subId = document.createElement('td');
+                subId.textContent = a+1;
+                let subTitle = document.createElement('td');
+                subTitle.textContent = localStorage[a+1];
+                let subDescription = document.createElement('td');
+                subDescription.textContent = date.toLocaleDateString("en-US");
+                let subOption = document.createElement('td');
+                subOption.innerHTML = `<form ><button type="submit" class="uk-margin-left uk-button uk-button-danger" onClick="if(${a}>0){localStorage.removeItem(${a});}else{ localStorage.clear();};" >Supprimer </button> </form>`;
+
+
+                     
+
+                // créer les cases 
+
+                child.appendChild(subId);
+                child.appendChild(subTitle);
+                child.appendChild(subDescription);
+                child.appendChild(subOption);
+                cont.appendChild(child);
+
+
+                  
+
+       
+           }
+      
+ 
+
+    </script>
+
+
+  </body>
+
+</html>
