@@ -12,14 +12,18 @@
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.1/dist/js/uikit-icons.min.js"></script>
   </head>
 
-  <body>
+  <body class="uk-container-expand uk-padding-large uk-text-center uk-flex-center">
  
      
-    <form classe=" uk-flex uk-margin-large uk-card uk-padding uk-flex ">
+    <form classe=" uk-flex uk-padding-large uk-card uk-padding uk-flex ">
       <fieldset class="uk-fieldset">
        <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s  " uk-grid>
     <div class="uk-card-media-left uk-cover-container">
-        <img src="https://images.pexels.com/photos/9052846/pexels-photo-9052846.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></canvas>
+
+       <div class="uk-overflow-hidden">
+            <img src="https://images.pexels.com/photos/1925536/pexels-photo-1925536.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" width="1800" height="1200" alt="Example image" class="uk-animation-reverse uk-transform-origin-top-right" uk-scrollspy="cls: uk-animation-kenburns; repeat: true">
+        </div>
+        
     </div>
     <div>
         <div class="uk-card-body">
@@ -48,6 +52,9 @@
         <button type="submit" class="uk-margin-left uk-button uk-button-danger" id="supprimer">
           Tout Supprimer
         </button>
+        <button type="submit" class="uk-margin-left uk-button uk-button-default" onclick="window.print();" id="imprimer">
+          Imprimer
+        </button>
       </fieldset>
     </form>
 
@@ -62,11 +69,9 @@
       </thead>
       <tbody id="tableContent"></tbody>
     </table>
+
  
     <script>
-
-   
-
 
       // Insertion des données
 
@@ -82,51 +87,84 @@
         localStorage.setItem(localStorage.length+1, insert);
       }, false);
 
-        
- 
-
-
-       
-
       // Recuperation des données
- 
-          for (let a = 0; a < localStorage.length; a++) {
 
-         
-              
+      for (let a = 0; a < localStorage.length; a++) {
+
+        let cont = document.querySelector('#tableContent');
+        let child = document.createElement('tr');
+        let date = new Date("2015-3-25");
+        let subId = document.createElement('td');
+        subId.textContent = a+1;
+        let subTitle = document.createElement('td');
+        subTitle.textContent = localStorage[a+1];
+        let subDescription = document.createElement('td');
+        subDescription.textContent = date.toLocaleDateString("en-US");
+        let subOption = document.createElement('td');
+        subOption.innerHTML = `
+        <form >
            
-             
-                let cont = document.querySelector('#tableContent');
-                let child = document.createElement('tr');
-                let date = new Date("2015-3-25");
-                let subId = document.createElement('td');
-                subId.textContent = a+1;
-                let subTitle = document.createElement('td');
-                subTitle.textContent = localStorage[a+1];
-                let subDescription = document.createElement('td');
-                subDescription.textContent = date.toLocaleDateString("en-US");
-                let subOption = document.createElement('td');
-                subOption.innerHTML = `<form ><button type="submit" class="uk-margin-left uk-button uk-button-danger" onClick="if(${a}>0){localStorage.removeItem(${a});}else{ localStorage.clear();};" >Supprimer </button> </form>`;
 
 
-                     
+          <!-- This is a button toggling the modal -->
+          <button class="uk-button uk-button-danger uk-margin-small-right" type="button" uk-toggle="target: #modal-example_${a+1}">Effacer</button>
 
-                // créer les cases 
+          <!-- This is the modal -->
+          <div id="modal-example_${a+1}" uk-modal>
+              <div class="uk-modal-dialog uk-modal-body">
+                  <h2 class="uk-modal-title">Confirmation</h2>
+                  <p>Est ce que vous sûre de vouloir supprimer cette element !</p>
+                  <p class="uk-text-right">
+                      <button type="submit" class="uk-margin-left uk-button uk-button-danger" onClick="localStorage.removeItem(${a+1});window.location.reload();" >Supprimer </button>
+                      <button class="uk-button uk-button-default uk-modal-close" type="button">Annuler</button>
+                  </p>
+              </div>
+          </div>
 
-                child.appendChild(subId);
-                child.appendChild(subTitle);
-                child.appendChild(subDescription);
-                child.appendChild(subOption);
-                cont.appendChild(child);
 
+          <a class="uk-button uk-button-secondary" onClick="document.querySelector('#changer').value = localStorage.getItem(${a+1});  " href="#modal-center-${a+1}" uk-toggle>Modifier</a>
 
-                  
+          <div id="modal-center-${a+1}" class="uk-flex-top" uk-modal>
+          <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
 
-       
-           }
+          <div class="uk-margin uk-flex-center">
+            <input class="uk-input uk-text-center" type="text" placeholder="nouvelle valeur" id="changer" />
+          </div>
+
+          <button type="submit" class="uk-margin-left uk-button uk-button-primary" onClick="localStorage.setItem(${a+1},document.querySelector('#changer').value); window.location.reload();" >Enregistrer les modifications </button>
+          <button class="uk-button uk-button-default uk-modal-close" type="button">Annuler</button>
+
+          </div>
+          </div>
+
+          <a class="uk-button uk-button-primary" onClick="document.querySelector('#lire').textContent = localStorage.getItem(${a+1});  " href="#modal-center--${a+1}" uk-toggle>voir</a>
+
+          <div id="modal-center--${a+1}" class="uk-flex-top" uk-modal>
+          <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+
+          <div class="uk-margin uk-flex-center">
+           
+            <p id="lire"> </p>
+          </div>
+
+          <button class="uk-button uk-button-default uk-modal-close" type="button">Fermer</button>
+
+          </div>
+          </div>
+
+        </form>`;
+
+        // créer les cases 
+
+        child.appendChild(subId);
+        child.appendChild(subTitle);
+        child.appendChild(subDescription);
+        child.appendChild(subOption);
+        cont.appendChild(child);
+
+   }
       
  
-
     </script>
 
 
